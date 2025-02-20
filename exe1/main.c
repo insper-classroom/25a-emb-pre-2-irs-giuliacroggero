@@ -25,7 +25,6 @@ int main() {
       BTN_PIN_R, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true, &btn_callback);
 
   while (true) {
-    if (event_flag_fall != 0) {
       if (event_flag_fall == 1) {
         event_flag_fall = 0;
         printf("fall\n");
@@ -35,4 +34,4 @@ int main() {
       }
     }
   }
-}
+
