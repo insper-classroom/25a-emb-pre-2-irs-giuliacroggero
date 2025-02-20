@@ -7,9 +7,8 @@ const int BTN_PIN = 28;   // Pino do botão
 
 volatile bool btn_pressed = false;  // Flag para sinalizar que o botão foi pressionado
 
-// Callback da interrupção: apenas seta a flag se for borda de descida (press)
 void btn_callback(uint gpio, uint32_t events) {
-    if (events & GPIO_IRQ_EDGE_FALL) {
+    if (events == GPIO_IRQ_EDGE_FALL) {
         btn_pressed = true;
     }
 }
@@ -17,25 +16,26 @@ void btn_callback(uint gpio, uint32_t events) {
 int main() {
     stdio_init_all();
 
-    // Inicializa o LED como saída e o desliga inicialmente
+    // Configura o LED como saída e o inicializa desligado
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, 0);
 
-    // Inicializa o botão como entrada com pull-up
+    // Configura o botão como entrada com pull-up
     gpio_init(BTN_PIN);
     gpio_set_dir(BTN_PIN, GPIO_IN);
     gpio_pull_up(BTN_PIN);
 
-    
-    gpio_set_irq_enabled_with_callback(BTN_PIN,GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE,true, &btn_callback);
+    // Habilita a interrupção apenas para borda de descida
+    gpio_set_irq_enabled_with_callback(BTN_PIN, GPIO_IRQ_EDGE_FALL, true, &btn_callback);
 
     while (true) {
         if (btn_pressed) {
-            btn_pressed = false;  // Reseta a flag após processar o evento
-            // Altera o estado do LED (toggle)
+            btn_pressed = false;  // Reseta a flag
+            // Alterna o estado do LED
             gpio_put(LED_PIN, !gpio_get(LED_PIN));
         }
+        sleep_ms(10);  // Pequena pausa para evitar busy waiting excessivo
     }
     return 0;
 }
