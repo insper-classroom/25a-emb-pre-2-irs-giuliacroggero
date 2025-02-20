@@ -25,8 +25,7 @@ int main() {
     gpio_pull_up(BTN_PIN);
   
 
-    gpio_set_irq_enabled_with_callback(
-        BTN_PIN, GPIO_IRQ_EDGE_FALL, true, btn_callback);
+    gpio_set_irq_enabled_with_callback(BTN_PIN, GPIO_IRQ_EDGE_FALL, true, btn_callback);
 
     while (true) {
         if (btn_pressed ==1) {
@@ -35,8 +34,9 @@ int main() {
             gpio_put(LED_PIN,1);
           }else{
             gpio_put(LED_PIN,0);
-          }
+          
         }
 
       }
+}
 }

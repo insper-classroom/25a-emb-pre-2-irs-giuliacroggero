@@ -44,7 +44,7 @@ int main() {
     gpio_pull_up(BTN_GREEN_PIN);
 
     gpio_set_irq_enabled_with_callback(BTN_RED_PIN, GPIO_IRQ_EDGE_FALL, true, &btn_callback);
-    gpio_set_irq_enabled_with_callback(BTN_GREEN_PIN, GPIO_IRQ_EDGE_RISE, true);
+    gpio_set_irq_enabled(BTN_GREEN_PIN, GPIO_IRQ_EDGE_RISE, true);
 
     while (true) {
         if (flag_red == 1) {
