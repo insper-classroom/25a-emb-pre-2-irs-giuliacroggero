@@ -5,11 +5,11 @@
 const int LED_PIN = 4;  
 const int BTN_PIN = 28;   
 
-volatile int btn_pressed = 1;  //Flag para sinalizar que o botão foi pressionado
+volatile int btn_pressed = 0;  
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) {
-        btn_pressed = 0;
+        btn_pressed = 1;
     }
 }
 
@@ -25,7 +25,8 @@ int main() {
     gpio_pull_up(BTN_PIN);
   
 
-    gpio_set_irq_enabled_with_callback(BTN_PIN, GPIO_IRQ_EDGE_FALL, true, btn_callback);
+    gpio_set_irq_enabled_with_callback(
+        BTN_PIN, GPIO_IRQ_EDGE_FALL, true, btn_callback);
 
     while (true) {
         if (btn_pressed ==1) {
