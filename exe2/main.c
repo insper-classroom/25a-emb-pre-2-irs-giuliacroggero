@@ -5,7 +5,7 @@
 const int LED_PIN = 4;  
 const int BTN_PIN = 28;   
 
-volatile bool btn_pressed = 1;  //Flag para sinalizar que o botão foi pressionado
+volatile int btn_pressed = 1;  //Flag para sinalizar que o botão foi pressionado
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) {

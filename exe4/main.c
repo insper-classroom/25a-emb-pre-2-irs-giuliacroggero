@@ -3,24 +3,22 @@
 #include <stdio.h>
 
 // Definições dos pinos
-const int LED_RED_PIN   = 15;  // LED vermelho (pode ser um LED externo)
-const int LED_GREEN_PIN = 16;  // LED verde (pode ser um LED externo)
-const int BTN_RED_PIN   = 28;  // Botão vermelho
-const int BTN_GREEN_PIN = 26;  // Botão verde
+const int LED_RED_PIN   = 4;  
+const int LED_GREEN_PIN = 6; 
+const int BTN_RED_PIN   = 28; 
+const int BTN_GREEN_PIN = 26;  
 
 // Flags para sinalizar os eventos dos botões
-volatile bool flag_red   = false;
-volatile bool flag_green = false;
+volatile int flag_red   = 0;
+volatile int flag_green = 0;
 
 // Callback para ambos os botões
-void gpio_callback(uint gpio, uint32_t events) {
-    // Botão vermelho: aciona na borda de descida (quando pressionado)
-    if (gpio == BTN_RED_PIN && (events & GPIO_IRQ_EDGE_FALL)) {
-        flag_red = true;
+void btn_callback(uint gpio, uint32_t events) {
+    if (events == 0x4) {
+        flag_red = 1;
     }
-    // Botão verde: aciona na borda de subida (quando solto)
-    else if (gpio == BTN_GREEN_PIN && (events & GPIO_IRQ_EDGE_RISE)) {
-        flag_green = true;
+    else if (events == 0x8) {
+        flag_green = 1;
     }
 }
 
